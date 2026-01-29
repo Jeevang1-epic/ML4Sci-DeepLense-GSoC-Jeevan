@@ -4,27 +4,24 @@ import matplotlib.image as mpimg
 import random
 
 # --- 1. CONFIGURATION ---
-# We try to find the 'lenses' folder automatically
 possible_paths = ["lenses", "dataset/lenses", "../lenses"]
 dataset_path = None
 
-print(f"Current Working Directory: {os.getcwd()}")
+print(f"Current Directory: {os.getcwd()}")
 
-# Look for the folder
+# Locate dataset folder
 for path in possible_paths:
     if os.path.exists(path):
         dataset_path = path
-        print(f"✅ Found dataset at: {path}")
+        print(f"Dataset found at: {path}")
         break
 
 if dataset_path is None:
-    print("❌ ERROR: Could not find 'lenses' folder.")
-    print("ACTION: Make sure your terminal is inside 'ML4Sci-DeepLense-GSoC-Jeevan'")
+    print("ERROR: Could not find 'lenses' folder.")
 else:
-    # --- 2. LOAD & DISPLAY ---
-    # Since you have Model I (Binary), you should have 'no_sub' and 'sub'
+    # --- 2. DISPLAY SAMPLES ---
     classes = [d for d in os.listdir(dataset_path) if os.path.isdir(os.path.join(dataset_path, d))]
-    print(f"Found Classes: {classes}")
+    print(f"Classes detected: {classes}")
 
     plt.figure(figsize=(10, 5))
     
@@ -33,11 +30,9 @@ else:
         all_files = os.listdir(folder_path)
         
         if len(all_files) > 0:
-            # Pick a random image
             image_name = random.choice(all_files)
             image_path = os.path.join(folder_path, image_name)
             
-            # Show it
             img = mpimg.imread(image_path)
             plt.subplot(1, len(classes), i + 1)
             plt.imshow(img, cmap='gray')

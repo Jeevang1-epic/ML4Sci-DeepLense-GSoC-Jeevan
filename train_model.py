@@ -8,23 +8,23 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import roc_curve, auc
 import numpy as np
 import time
-from torch.cuda.amp import autocast, GradScaler # <--- THE SPEED BOOSTER
+from torch.cuda.amp import autocast, GradScaler # Mixed Precision for optimization
 
 # --- 1. CONFIGURATION ---
 if torch.cuda.is_available():
     DEVICE = torch.device("cuda")
-    print(f"✅ GPU DETECTED: {torch.cuda.get_device_name(0)}")
-    print(" TURBO MODE: ENGAGED (Mixed Precision Active)")
+    print(f"Device: GPU ({torch.cuda.get_device_name(0)})")
+    print("Mixed Precision Enabled")
 else:
     DEVICE = torch.device("cpu")
-    print("❌ GPU NOT FOUND. Using CPU.")
+    print("Device: CPU (GPU not found)")
 
-BATCH_SIZE = 128  # Increased batch size for speed (AMP uses less memory)
+BATCH_SIZE = 128
 LEARNING_RATE = 0.0001
-EPOCHS = 100      # Targeting the moon
+EPOCHS = 100
 IMG_SIZE = 64
 
-# Robust Path Finder
+# Dataset path configuration
 possible_paths = [
     "lenses", 
     "dataset/lenses", 
@@ -39,13 +39,15 @@ for path in possible_paths:
         break
         
 if DATA_PATH is None:
+    # Fallback for local development environment
     DATA_PATH = r"C:\Users\jeevan kumar\Desktop\ML4Sci-DeepLense-GSoC-Jeevan\lenses"
 
-# --- 2. DATA AUGMENTATION ---
+# --- 2. DATA PREPARATION ---
+# Augmentation strategy: Rotations and flips to improve generalization
 train_transform = transforms.Compose([
     transforms.Resize((IMG_SIZE, IMG_SIZE)),
     transforms.RandomHorizontalFlip(),
-    transforms.RandomVerticalFlip(), # Added Vertical Flip for Space images
+    transforms.RandomVerticalFlip(), # Relevant for rotational invariance in space
     transforms.RandomRotation(30),
     transforms.Grayscale(num_output_channels=1),
     transforms.ToTensor(),
@@ -67,27 +69,28 @@ try:
     
     train_dataset = torch.utils.data.Subset(datasets.ImageFolder(root=DATA_PATH, transform=train_transform), train_indices)
     test_dataset = torch.utils.data.Subset(datasets.ImageFolder(root=DATA_PATH, transform=test_transform), test_indices)
-    print(f"✅ Loaded {len(full_dataset)} images.")
+    print(f"Dataset Loaded. Total Images: {len(full_dataset)}")
 except Exception as e:
-    print("❌ Error loading data.")
+    print("Error loading dataset.")
     raise e
 
-# Num_workers=0 is safer for Windows Jupyter, but try 2 if you want more speed
 train_loader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True, pin_memory=True, num_workers=0)
 test_loader = DataLoader(test_dataset, batch_size=BATCH_SIZE, shuffle=False, pin_memory=True, num_workers=0)
 
-# --- 3. MODEL: RESNET18 ---
+# --- 3. MODEL ARCHITECTURE: RESNET18 ---
 model = models.resnet18(pretrained=True)
+# Modify first convolutional layer for 1-channel input (Grayscale)
 model.conv1 = nn.Conv2d(1, 64, kernel_size=7, stride=2, padding=3, bias=False)
+# Modify final fully connected layer for binary classification
 model.fc = nn.Linear(model.fc.in_features, 1)
 model = model.to(DEVICE)
 
 criterion = nn.BCEWithLogitsLoss()
 optimizer = optim.Adam(model.parameters(), lr=LEARNING_RATE)
-scaler = GradScaler() # <--- Initialize Scaler for AMP
+scaler = GradScaler() 
 
 # --- 4. TRAINING LOOP ---
-print(f"\n--- Starting 100 Epoch Speed Run ---")
+print(f"\n--- Starting Training ({EPOCHS} Epochs) ---")
 best_auc = 0.0
 start_time = time.time()
 
@@ -100,12 +103,12 @@ for epoch in range(EPOCHS):
         
         optimizer.zero_grad()
         
-        # Mixed Precision Forward Pass (Faster)
+        # Forward pass with Mixed Precision
         with autocast():
             outputs = model(images)
             loss = criterion(outputs, labels)
         
-        # Scaled Backward Pass
+        # Backward pass with Scaler
         scaler.scale(loss).backward()
         scaler.step(optimizer)
         scaler.update()
@@ -114,7 +117,7 @@ for epoch in range(EPOCHS):
     
     avg_loss = running_loss / len(train_loader)
     
-    # Check Validtion every 5 epochs OR if loss is extremely low
+    # Validation check every 5 epochs or if convergence is detected
     if (epoch + 1) % 5 == 0 or avg_loss < 0.05:
         model.eval()
         y_true, y_scores = [], []
@@ -135,6 +138,6 @@ for epoch in range(EPOCHS):
         if current_auc > best_auc:
             best_auc = current_auc
             torch.save(model.state_dict(), "best_deeplense_model.pth")
-            print(f"    New Best Saved! ({best_auc:.4f})")
+            print(f"    Model Saved (AUC: {best_auc:.4f})")
 
-print(f"\n FINAL BEST AUC: {best_auc:.4f}")
+print(f"\nTraining Complete. Best AUC: {best_auc:.4f}")
