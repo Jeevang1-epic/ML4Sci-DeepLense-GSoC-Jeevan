@@ -20,7 +20,7 @@ The solution implements a **ResNet18** architecture optimized for single-channel
 ### 1. Data Visualization
 The dataset consists of single-channel (grayscale) simulated lensing images. Below is a sample visualization showing the distinct difference between the two classes:
 
-![Data Visualization](data_visualization.png)
+![Data Visualization](output.png)
 *Left: A smooth halo (no_sub). Right: A halo with substructure (sub).*
 
 ### 2. Model Architecture
