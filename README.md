@@ -1,4 +1,4 @@
-# 🌌 DeepLense: Gravitational Lensing Classification
+#  DeepLense: Gravitational Lensing Classification
 ### GSoC 2026 Common Task | ML4Sci Foundation
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python&logoColor=white)
@@ -6,7 +6,7 @@
 ![AUC Score](https://img.shields.io/badge/AUC-1.0000-FFD700?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
-## 📖 Project Overview
+## Project Overview
 This repository contains a high-performance deep learning solution for the **ML4Sci DeepLense Common Task (Model I)**. The objective is to classify strong gravitational lensing images into two categories:
 1.  **No Substructure (`no_sub`):** Smooth dark matter halos.
 2.  **Substructure (`sub`):** Halos containing dark matter sub-halos.
@@ -15,7 +15,7 @@ The solution implements a **ResNet18** architecture optimized for single-channel
 
 ---
 
-## 🔬 Methodology
+##  Methodology
 
 ### 1. Data Visualization
 The dataset consists of single-channel (grayscale) simulated lensing images. Below is a sample visualization showing the distinct difference between the two classes:
@@ -32,7 +32,7 @@ The dataset consists of single-channel (grayscale) simulated lensing images. Bel
 
 ---
 
-## 📊 Results & Evaluation
+##  Results & Evaluation
 
 The model was trained for **100 epochs**, achieving perfect separation on the test set.
 
@@ -49,7 +49,7 @@ The Receiver Operating Characteristic (ROC) curve below demonstrates the model's
 
 ---
 
-## 🛠️ Installation & Usage
+##  Installation & Usage
 
 ### 1. Setup Environment
 To set up the project, clone the repository and install the required dependencies (Python 3.10+ and PyTorch required):
