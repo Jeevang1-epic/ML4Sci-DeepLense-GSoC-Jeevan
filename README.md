@@ -90,7 +90,7 @@ To inspect random samples from the dataset to understand the problem:
 
 ---
 
-## 🎯 Phase 3: Specific Task — Object Detection (Lens Localization)
+## Specific Task — Object Detection (Lens Localization)
 
 In this phase, the project expands from classification to **Object Detection**, focusing on precisely localizing gravitational lensing features within the imagery.
 
@@ -113,6 +113,9 @@ The AI successfully identifies and localizes gravitational lensing arcs with tot
 
 ![YOLO Predictions](YOLO_Predictions.png)
 *Figure: Predictions on the validation set showing precise bounding box localization.*
+
+![training_results_plot](results_visualization/training_results_plot.png)
+*Figure: shows the plot of result
 
 ---
 
@@ -137,15 +140,15 @@ The AI successfully identifies and localizes gravitational lensing arcs with tot
 
 #### 1. Dataset Preparation
 Generate the YOLO-compatible dataset from raw images using contour-based auto-labeling:
-
-python prepare_yolo.py
+    
+    python prepare_yolo.py
 
 #### 2. Model Training
 Fine-tune the YOLOv8 model on the generated dataset:
 
-python train_yolo.py
+     python train_yolo.py
 
 #### 3. Inference & Visualization
 Generate the prediction grid for visual verification:
 
-python visualize_results.py
+     python visualize_results.py
