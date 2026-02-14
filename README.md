@@ -121,7 +121,7 @@ The AI successfully identifies and localizes gravitational lensing arcs with tot
 
 ## 📂 Phase 3 Repository Structure
 
-``text
+    ``text
 ├── training_logs/            # Full transparent logs from YOLO training
 │   └── deeplense_yolo2/      # Raw weights, logs, and CSV outputs
 ├── visuals/                  # Renamed high-quality performance plots
