@@ -121,20 +121,20 @@ The AI successfully identifies and localizes gravitational lensing arcs with tot
 
 ## 📂 Phase 3 Repository Structure
 
-    ``text
-├── training_logs/            # Full transparent logs from YOLO training
-│   └── deeplense_yolo2/      # Raw weights, logs, and CSV outputs
-├── visuals/                  # Renamed high-quality performance plots
-│   ├── training_curves.png   # mAP and Loss graphs (renamed results.png)
-│   ├── F1_score_curve.png    # F1 confidence curve (renamed F1_curve.png)
-│   └── detection_samples.jpg # Validation batch samples (renamed val_batch0_pred.jpg)
-├── best_yolo_model.pt        # Optimized YOLOv8 Weights (1.0 mAP)
-├── last_yolo_checkpoint.pt   # State of the model at Epoch 100
-├── dataset.yaml              # YOLO dataset configuration
-├── prepare_yolo.py           # Auto-labeling & dataset generation script
-├── train_yolo.py             # Specific task training pipeline
-└── visualize_results.py      # Results visualization script
-
+   
+    ├── training_logs/            # Full transparent logs from YOLO training
+    │   └── deeplense_yolo2/      # Raw weights, logs, and CSV outputs
+    ├── visuals/                  # Renamed high-quality performance plots
+    │   ├── training_curves.png   # mAP and Loss graphs (renamed results.png)
+    │   ├── F1_score_curve.png    # F1 confidence curve (renamed F1_curve.png)
+    │   └── detection_samples.jpg # Validation batch samples (renamed val_batch0_pred.jpg)
+    ├── best_yolo_model.pt        # Optimized YOLOv8 Weights (1.0 mAP)
+    ├── last_yolo_checkpoint.pt   # State of the model at Epoch 100
+    ├── dataset.yaml              # YOLO dataset configuration
+    ├── prepare_yolo.py           # Auto-labeling & dataset generation script
+    ├── train_yolo.py             # Specific task training pipeline
+    └── visualize_results.py      # Results visualization script
+---
 
 ### Specific Task Usage
 
