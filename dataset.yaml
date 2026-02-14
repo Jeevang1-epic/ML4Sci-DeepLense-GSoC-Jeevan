@@ -1,0 +1,10 @@
+# Absolute path to your project folder
+path: C:/Users/Jeevan kumar/OneDrive/ML4Sci-DeepLense-GSoC-Jeevan/yolo_dataset
+
+# Train and Validation folders (relative to the path above)
+train: images/train
+val: images/val
+
+# Number of classes and names
+nc: 1
+names: ['gravitational_lens']
