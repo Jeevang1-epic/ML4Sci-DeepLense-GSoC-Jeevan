@@ -115,7 +115,7 @@ The AI successfully identifies and localizes gravitational lensing arcs with tot
 *Figure: Predictions on the validation set showing precise bounding box localization.*
 
 ![training_results_plot](results_visualization/training_results_plot.png)
-*Figure: shows the plot of result
+*Figure: shows the plot of training result.*
 
 ---
 
