@@ -86,3 +86,66 @@ To inspect random samples from the dataset to understand the problem:
     ├── Final_ROC_Curve.png      # Performance Graph
     ├── data_visualization.png   # Data Sample Image
     └── README.md                # Project Documentation
+
+
+---
+
+## 🎯 Phase 3: Specific Task — Object Detection (Lens Localization)
+
+In this phase, the project expands from classification to **Object Detection**, focusing on precisely localizing gravitational lensing features within the imagery.
+
+### **Overview**
+* **Model:** YOLOv8 Nano (v8.4.14).
+* **Task:** Localization of gravitational lenses using an automated bounding box pipeline.
+* **Metric:** Achieved a perfect **1.000 mAP50** (Mean Average Precision) score.
+
+### **Performance Metrics**
+The model was trained for **100 epochs** on an NVIDIA RTX 4060 Laptop GPU, demonstrating rapid convergence and absolute localization accuracy.
+
+| Metric | Score |
+| :--- | :--- |
+| **mAP50** | **1.000** |
+| **Precision** | **1.000** |
+| **Recall** | **1.000** |
+
+### **Visual Results**
+The AI successfully identifies and localizes gravitational lensing arcs with total confidence.
+
+![YOLO Predictions](YOLO_Predictions.png)
+*Figure: Predictions on the validation set showing precise bounding box localization.*
+
+---
+
+## 📂 Phase 3 Repository Structure
+
+``text
+├── training_logs/            # Full transparent logs from YOLO training
+│   └── deeplense_yolo2/      # Raw weights, logs, and CSV outputs
+├── visuals/                  # Renamed high-quality performance plots
+│   ├── training_curves.png   # mAP and Loss graphs (renamed results.png)
+│   ├── F1_score_curve.png    # F1 confidence curve (renamed F1_curve.png)
+│   └── detection_samples.jpg # Validation batch samples (renamed val_batch0_pred.jpg)
+├── best_yolo_model.pt        # Optimized YOLOv8 Weights (1.0 mAP)
+├── last_yolo_checkpoint.pt   # State of the model at Epoch 100
+├── dataset.yaml              # YOLO dataset configuration
+├── prepare_yolo.py           # Auto-labeling & dataset generation script
+├── train_yolo.py             # Specific task training pipeline
+└── visualize_results.py      # Results visualization script
+
+
+### Specific Task Usage
+
+#### 1. Dataset Preparation
+Generate the YOLO-compatible dataset from raw images using contour-based auto-labeling:
+
+python prepare_yolo.py
+
+#### 2. Model Training
+Fine-tune the YOLOv8 model on the generated dataset:
+
+python train_yolo.py
+
+#### 3. Inference & Visualization
+Generate the prediction grid for visual verification:
+
+python visualize_results.py
